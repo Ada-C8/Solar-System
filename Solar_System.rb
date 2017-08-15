@@ -2,13 +2,12 @@ class SolarSystem
 
   attr_reader :year_length, :distance_from_the_sun, :size, :atmosphere, :temperature, :planet_list, :planets, :list_all_planets
 
-  def initialize(name, year_length, distance_from_the_sun,  size, atmosphere, temperature)
+  def initialize(name, year_length, distance_from_the_sun, size, atmosphere, temperature)
     @planets = []
     create_planet(name, year_length, distance_from_the_sun,  size, atmosphere, temperature)
-
   end
 
-  def create_planet(name, year_length, distance_from_the_sun,  size, atmosphere, temperature)
+  def create_planet(name, year_length, distance_from_the_sun, size, atmosphere, temperature)
     @name = name
     @year_length = year_length
     @distance_from_the_sun = distance_from_the_sun
@@ -21,7 +20,7 @@ class SolarSystem
   def list_all_planets
     @planet_list = ""
     @planets.length.times do |i|
-       @planet_list += (i+1).to_s + ". " + @planets[i]["name"] + " (#{i+1})\n"
+      @planet_list += (i+1).to_s + ". " + @planets[i]["name"] + " (#{i+1})\n"
     end
     return  @planet_list
   end
@@ -43,8 +42,8 @@ more_info = nil
 
 until more_info == false
   puts "\n\nWhat planet do you want to learn about?\n"
-
   found = nil
+
   until found == true
     puts "\nHere are the planets in the database: \n#{christiane_S_S.list_all_planets}\n"
     print "\nChoice: "
@@ -59,7 +58,6 @@ until more_info == false
     end
         puts "\nInvalide input." if found != true
   end
-
 
   puts "\nIs your thirst for knowledge satisfied?"
   satisfied = gets.chomp
