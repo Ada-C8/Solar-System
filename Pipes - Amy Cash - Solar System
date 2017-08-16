@@ -1,6 +1,8 @@
+#Wave Three (Wave One Hash Version follows, but is commented out; Wave Two is encapsulated in Wave Three)
+
 class Planet
 
-  attr_reader :name, :namesake, :type, :year, :distance #these now all exist as methods
+  attr_reader :name, :namesake, :type, :year, :distance 
 
   def initialize(name, namesake, type, year, distance)
     @name = name
@@ -11,7 +13,7 @@ class Planet
   end
 
   def give_info
-    list =  "#{@name}: \tNamed for: #{@namesake} \tType: #{type} \tYear: #{year} Earth Years \tDistance: \t#{distance} kilometers."
+    list =  "#{@name}: \tNamed for: #{@namesake} \tType: #{type} \tYear: #{year} Earth Years \tDistance: \t#{distance} million kilometers."
     return list
   end
 
@@ -74,6 +76,7 @@ class SolarSystem
 
     puts "\nThe distance between #{@planets[planet_1 - 1].name} and #{@planets[planet_2 - 1].name} is #{distance_between_planets.abs} million kilometers as the crow flies.\n\n"
   end
+
 end
 
 mercury = Planet.new("Mercury", "the Roman god of travel", "hotter than hot", "0.241", 58)
@@ -112,10 +115,10 @@ def user_planet
   puts "How would you describe your planet"
   type = gets.chomp.to_s
 
-  puts "How long is your planet's year in Earth years? "
+  puts "How long is your planet's year in Earth years (enter a number)? "
   year = gets.chomp.to_i
 
-  puts "How far is your planet from its sun? "
+  puts "How far is your planet from its sun (in kilometers)? "
   distance = gets.chomp.to_i
 
   planetin = Planet.new(name, namesake, type, year, distance)
@@ -127,3 +130,67 @@ def user_planet
 end
 
 puts user_planet
+
+################################
+#Wave One, Hash Version
+
+# 
+# class SolarSystem
+#   def initialize(planet)
+#     @planets = Array.new
+#     @planets << planet
+#   end
+# 
+#   def add_planet(aplanet)
+#     @planets << aplanet
+#   end
+# 
+#   def print_list
+#     list = ""
+#     @planets.each do |planet|
+#       planet.each do |category, description|
+#         list += "#{category}: #{description} \t"
+#       end
+#       list += "\n"
+#     end
+#     return list
+#   end
+# 
+#   def check_input(input)
+#     until input.is_a?(Integer) && input.between?(1, 9)
+#       print "Please enter a number between 1 and 9: "
+#       input = gets.chomp.to_i
+#     end
+#   end
+# 
+#   def select_planet
+#     
+#     puts "Which Planet do you want to learn about? Choose from the following options: 1. Mercury, 2. Venus, 3. Earth, 4. Mars, 5. Jupiter, 6. Saturn, 7. Uranus, 8. Neptune, 9. Pluto "
+#     answer = gets.chomp.to_i
+# 
+#     check_input(answer)
+# 
+#     choice = @planets[answer - 1]
+# 
+#     puts "You chose #{choice[:name]}\n"
+#     puts "Here is what I know about #{choice[:name]}\n"
+#     info = "#{choice[:name]} was named for #{choice[:namesake]}. Its year is #{choice[:year]} earth years long. It is #{choice[:distance]} million kilometers from the sun and it is #{choice[:type]}.\n\n"
+#     return info
+#   end
+# 
+# end #end of class definition
+# 
+# 
+# milky_way = SolarSystem.new({name: "Mercury", namesake: "the Roman god of travel", type: "hotter than hot", year: "0.241", distance: 58})
+# milky_way.add_planet({name: "Venus", namesake: "the Roman goddess of love", type: "funky", year: "0.6152", distance: 108})
+# milky_way.add_planet({name: "Earth", namesake: "an Old English word for the ground", type: "troubled", year: "1", distance: 150})
+# milky_way.add_planet({name: "Mars", namesake: "the Roman God of war", type: "made of chocolate", year: "1.8809", distance: 228})
+# milky_way.add_planet({name: "Jupiter", namesake: "the King of the Roman gods", type: "gassy", year: "11.8612", distance: 778})
+# milky_way.add_planet({name: "Saturn", namesake: "the Roman God of agriculture", type: "a big fan of Beyonce", year: "29.456", distance: 1427})
+# milky_way.add_planet({name: "Uranus", namesake: "an ancient Greek king of the Gods", type: "mocked by school children", year: "84.07", distance: 2871})
+# milky_way.add_planet({name: "Neptune", namesake: "the Roman God of the sea", type: "a lover of Trident gum", year: "164.81", distance: 4497})
+# milky_way.add_planet({name: "Pluto", namesake: "the Roman god of the underworld", type: "fiesty and defiant", year: "247.7", distance: 5913})
+# 
+# puts milky_way.print_list
+# 
+# puts milky_way.select_planet
