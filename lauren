@@ -75,12 +75,16 @@ def user_planet(solar_system)
     distance_from_sun = gets.chomp
     puts "Enter the year length of #{name.capitalize}: "
     year_length = gets.chomp
+
+    solar_system.add_planets(name, weight, color, distance_from_sun, year_length)
+    puts "Thank you for your input! Below is the planet you've added:\n" + user_planet(ss).last.details
+
   else
   end
-  return solar_system.add_planets(name, weight, color, distance_from_sun, year_length)
-end
-puts "Thank you for your input! Below is the planet you've added:\n" + user_planet(ss).last.details
 
+  return
+end
+user_planet(ss)
 
 # output individual info on a planet out for user
 def learn_more(solar_system)
