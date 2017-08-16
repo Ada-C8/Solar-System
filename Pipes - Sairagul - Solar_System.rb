@@ -23,15 +23,16 @@ class Planet
   end
 
 
-# Calculates distance between planets.
-  def distance_from_other_planet(other_planet)
-    diff = @distance_from_the_sun - other_planet.distance_from_the_sun
-    if diff >= 0
-      return diff
-    else
-      return -1 * diff
-    end
-  end
+#  I couldn't figure out how to call this function, where to call. It should work but, I can't test it. 
+# # Calculates distance between planets.
+#   def distance_from_other_planet(other_planet)
+#     diff = @distance_from_the_sun - other_planet.distance_from_the_sun
+#     if diff >= 0
+#       return diff
+#     else
+#       return -1 * diff
+#     end
+#   end
   
 end # End of class Planet
 
