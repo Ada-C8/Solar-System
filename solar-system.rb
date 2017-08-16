@@ -12,11 +12,13 @@ class SolarSystem
     @ss.each do |ss_planet|
       puts ss_planet.name
     end
-    puts "What planet do you want to learn more about?"
+    puts "What planet do you want to learn more about? Please properly capitalize:"
+    # currently only accepts capitalized planets
     planet_choice = gets.chomp
     @ss.each do |ss_planet|
       if planet_choice == ss_planet.name
         puts ss_planet.print_planet
+      # else statement is always printing. not sure why
       # else
       #   puts "Sorry, you inputted an invalid planet"
       #   exit
