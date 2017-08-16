@@ -1,0 +1,80 @@
+#ignore
+=begin
+class SolarSystem
+
+  attr_reader :year_length, :distance_from_the_sun, :size, :atmosphere, :temperature, :planet_list, :planets, :list_all_planets
+
+  def initialize(name, year_length, distance_from_the_sun, size, atmosphere, temperature)
+    @planets = []
+    create_planet(name, year_length, distance_from_the_sun,  size, atmosphere, temperature)
+  end
+
+  def create_planet(name, year_length, distance_from_the_sun, size, atmosphere, temperature)
+    @name = name
+    @year_length = year_length
+    @distance_from_the_sun = distance_from_the_sun
+    @size = size
+    @atmosphere = atmosphere
+    @temperature = temperature
+    @planets << {"name" => @name, "year_length" => @year_length, "distance_from_sun" => @distance_from_the_sun, "size" => @size, "atmosphere" => @atmosphere, "temperature" => @temperature}
+  end
+
+  def list_all_planets
+    @planet_list = ""
+    @planets.length.times do |i|
+      @planet_list += (i+1).to_s + ". " + @planets[i]["name"] + " (#{i+1})\n"
+    end
+    return  @planet_list
+  end
+
+end
+
+christiane_S_S = SolarSystem.new("Earth", 464, 92.96, 3959, "yes", 58.3)
+christiane_S_S.create_planet("Mars", 687, 483.8, 4857, "no", -195)
+christiane_S_S.create_planet("Jupiter", 483.8, 432106, 58657, "yes", -145)
+christiane_S_S.create_planet("Saturn", 1556, 888.2, 36184, "no", -288)
+christiane_S_S.create_planet("Venus", 225, 67.24, 3760, "no", 864)
+
+#################### CODE ####################
+
+
+puts "\nHi there, planets-lover!"
+
+more_info = nil
+
+until more_info == false
+  puts "\n\nWhat planet do you want to learn about?\n"
+  found = nil
+
+  until found == true
+    puts "\nHere are the planets in the database: \n#{christiane_S_S.list_all_planets}\n"
+    print "\nChoice: "
+    user_planet = gets.chomp
+
+    christiane_S_S.planets.each do |planet_info|
+      if planet_info["name"].downcase == user_planet.downcase || christiane_S_S.planets.index(planet_info) == user_planet.to_i - 1
+        puts "\n\Here is the info about #{planet_info["name"]}:\n"
+        puts "\n#{planet_info["name"]}\'s\' years length is #{planet_info["year_length"]} days. It\'s #{planet_info["distance_from_sun"]} millions of miles from the sun. Its radius is #{planet_info["size"]} miles. It #{planet_info["atmosphere"] == "yes" ? "has" : "doesn't have"} an atmosphere, and its temperature is #{planet_info["temperature"]}F."
+        found = true
+      end
+    end
+        puts "\nInvalide input." if found != true
+  end
+
+  puts "\nIs your thirst for knowledge satisfied?"
+  satisfied = gets.chomp
+
+  until satisfied == "yes" || satisfied == "no"
+    puts "\nPlease, answer with yes or no."
+    satisfied = gets.chomp
+  end
+
+  if satisfied == "no"
+    more_info = true
+  elsif satisfied == "yes"
+    puts "\nOk, see you next time!"
+    more_info = false
+  end
+
+end
+=end
