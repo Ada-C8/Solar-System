@@ -1,0 +1,98 @@
+# planet class
+class Planet
+  attr_accessor :name, :weight, :color, :distance_from_sun, :year_length
+
+  def initialize(name, weight, color, distance_from_sun, year_length)
+    @name = name
+    @weight = weight
+    @color = color
+    @distance_from_sun = distance_from_sun
+    @year_length = year_length
+  end
+
+  def details
+    return " Planet name: #{@name}\n Weight: #{@weight}\n Color: #{@color}\n Distance from the Sun: #{@distance_from_sun}\n Year in length: #{@year_length}"
+  end
+end
+
+# solar system class
+class SolarSystem
+  attr_accessor :planets
+
+  def initialize(planets)
+    @planets = planets
+  end
+
+  def add_planets(name, weight, color, distance_from_sun, year_length)
+    @planets << Planet.new(name, weight, color, distance_from_sun, year_length)
+  end
+
+  def return_planets
+    list = ""
+    @planets.each_with_index do |planet, index|
+      puts "#{index+1}.\n#{planet.details}"
+    end
+    return list
+  end
+
+  def find_planet(name)
+    planets.each do |planet|
+      if name == planet.name
+        return planet.details
+      end
+    end
+  end
+end
+
+
+mercury = Planet.new("mercury", 123, "blue", 2, 9)
+saturn = Planet.new("saturn", 41, "pink", 111111, 12)
+earth = Planet.new("earth", 15, "blue", 232, 1)
+venus = Planet.new("venus", 3, "orange", 2, 16)
+pluto = Planet.new("pluto", 78, "black", 99, 100)
+all_planets = [mercury, saturn, earth, venus, pluto]
+
+ss = SolarSystem.new(all_planets)
+
+# output message greeting user
+puts "Hello! Here's some information on the planets in this galaxy: "
+puts ss.return_planets
+
+
+#  to add and display another planet
+def user_planet(solar_system)
+  puts "Would you like to add information for a different planet? (yes or no)"
+  answer = gets.chomp.downcase
+  if answer == "yes" || answer == "y"
+    puts "Cool! Let's have you enter some data."
+    puts "Enter the name of the planet: "
+    name = gets.chomp.downcase
+    puts "Enter the weight of #{name.capitalize}: "
+    weight = gets.chomp
+    puts "Enter the color of #{name.capitalize}: "
+    color = gets.chomp
+    puts "Enter the distance #{name.capitalize} is from the sun: "
+    distance_from_sun = gets.chomp
+    puts "Enter the year length of #{name.capitalize}: "
+    year_length = gets.chomp
+  else
+  end
+  return solar_system.add_planets(name, weight, color, distance_from_sun, year_length)
+end
+puts "Thank you for your input! Below is the planet you've added:\n" + user_planet(ss).last.details
+
+# output individual info on a planet out for user
+def learn_more(solar_system)
+  puts "Would you like to learn about one planet in particular? (yes or no)"
+  input = gets.chomp.downcase
+
+  if input == "yes" || input == "y"
+    puts "Which one?"
+    user_data = gets.chomp
+    # if user_data.include?(@planets)
+    # else puts "Sorry, invalid planet"
+    # end
+    puts solar_system.find_planet(user_data)
+  end
+end
+learn_more(ss)
