@@ -134,7 +134,7 @@ class SolarSystem
       # earth_year_list << @age * (planet.year_length / 365)
         earth_year_list << "---\nName: #{planet.name}\nAge in earth years: #{@age * (planet.year_length / 365.0)}\n"
       end
-  return earth_year_list
+    return earth_year_list
   end
 
 end
