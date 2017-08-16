@@ -1,3 +1,5 @@
+#ignore
+=begin
 class SolarSystem
 
   attr_reader :year_length, :distance_from_the_sun, :size, :atmosphere, :temperature, :planet_list, :planets, :list_all_planets
@@ -75,3 +77,4 @@ until more_info == false
   end
 
 end
+=end
