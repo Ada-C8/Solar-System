@@ -1,0 +1,198 @@
+#PLANETS
+class Planets
+  attr_reader :name, :rating, :population, :distance_from_sun, :year_length, :qualities
+  attr_accessor :radius, :avg_temp, :show_qualities
+
+  def initialize(name, population, rating, distance_from_sun, year_length)
+    @name = name
+    @population = population
+    @rating = rating
+    @distance_from_sun = distance_from_sun
+    @year_length = year_length
+    @qualities = { name: @name, population: @population, rating: @rating, distance_from_sun: @distance_from_sun, year_length: @year_length }
+  end
+
+  def show_qualities
+    my_qualities = ""
+    @qualities.each do |quality, value|
+      my_qualities += "#{quality.capitalize}:  #{value}\n"
+    end
+    return "#{my_qualities} \n"
+  end
+
+  def add_quality(key, value)
+    @qualities[key.to_sym] = value
+  end
+
+  def distance_from=planet_compare_name
+    return find_planet(planet_compare_name).distance_from_sun - self.distance_from_sun
+  end
+end #end planets
+
+#SOLAR SYSTEM
+class SolarSystem
+  attr_accessor :planets
+  attr_reader :age
+
+  def initialize(array_of_planets, age)
+    @planets = array_of_planets
+    @age = age
+  end
+
+  def add_planet=planet
+    @planets.push(planet)
+  end
+
+  def planet_attributes
+    @planets.each do |planet|
+      puts "#{planet.show_qualities}"
+    end
+  end
+
+  def print_planet_names
+    i = 0;
+    planet_names = ""
+    @planets.each do |planet|
+      planet_names += "#{i + 1}. #{planet.name} \n"
+      i += 1
+    end
+    return planet_names
+  end
+
+  def find_planet(input_name)
+    @planets.each do |planet|
+      if planet.name == input_name
+        return planet
+      end
+    end
+  end
+end #end of Class SolarSystem
+
+
+def user_make_planet
+  puts "\nWhat's the planet's name?"
+  name = gets.chomp.downcase
+
+  puts "\nWhat's the population?"
+  population = gets.chomp.to_i
+
+  puts "\nWhat's the rating?"
+  rating = gets.chomp.to_f
+
+  puts "\nWhat's the distance from the sun?"
+  distance = gets.chomp.to_f
+
+  puts "\nWhat's the length of a year?"
+  year_length = gets.chomp.to_f
+
+  user_planet = Planets.new(name, population, rating, distance, year_length)
+
+  puts "\nYour planet was created! See it in the list?\n"
+  return user_planet
+end
+
+def user_compare_planets(solarsystem, planet1, planet2)
+  planet1_position = solarsystem.find_planet(planet1)
+  planet1_position = planet1_position.distance_from_sun
+  planet2_position = solarsystem.find_planet(planet2)
+  planet2_position = planet2_position.distance_from_sun
+  distance = planet1_position - planet2_position
+
+  if distance >= 0
+    puts "The planets are #{distance} miles apart."
+  else
+    puts "The planets are #{-distance} miles apart"
+  end
+  return distance
+end
+
+def planet_rotational_age(solarsystem, solarsystem_age, input_planet)
+  planet = solarsystem.find_planet(input_planet)
+  rotation = planet.year_length
+  age = solarsystem_age / rotation
+  puts "#{input_planet} is #{age} years old. That means it has completed  #{age} complete rotations in its lifetime!"
+end
+
+def prompt(solarsystem)
+  puts "Here are the planets in this solar system:"
+  puts solarsystem.print_planet_names + "\n\n"
+  puts "\nWould you like to:"
+  puts "-add a planet ('add')"
+  puts "-view details about a planet ('details')"
+  puts "-find the distance between 2 planets ('distance')"
+  puts "-see the rotational age of a planet ('age')"
+  puts "-Exit the program ('EXIT')\n\n"
+  return gets.chomp.downcase
+end
+
+##MY TESTS (also necessary for building the solar system)
+ada = Planets.new("ada", 48, 5, 0, 1) #initializing for planets works
+home = Planets.new("home", 2, 4.5, 1.5, 90)
+jackson = Planets.new("jackson", 4, 3.5, 2, 1.0/365.00)
+nola = Planets.new("nola", 3, 4, 2800, 0.5)
+
+#Solar System tests
+canaansworld = SolarSystem.new([ada, home, jackson, nola], 110) #initializes the solar system
+canaansworld.add_planet=Planets.new("me_time", 1, 5, 0, 1.00/365.00/24.00/12.00) #adds
+
+
+
+#USER INTERFACE
+puts "\n\n~~Welcome to the Solar System Program!~~\n"
+possible_answer = ["add", "details", "distance", "age", "exit"]
+answer = prompt(canaansworld)
+
+while possible_answer.include?(answer)
+  if answer == "details"
+    puts "\nPlease select a planet from the list above to learn more about! \n\n"
+    choice = gets.chomp.downcase
+
+    puts "\n~~Here are the specs!~~\n"
+    puts "#{canaansworld.find_planet(choice).show_qualities}\n"
+
+
+  elsif answer == "add"
+    puts "Great! Follow the prompts to add a planet!\n"
+    canaansworld.add_planet=user_make_planet
+    puts canaansworld.print_planet_names + "\n"
+
+  elsif answer == "distance"
+    puts canaansworld.print_planet_names
+    puts "Enter your first planet's name."
+    planet1 = gets.chomp.downcase
+    puts "Enter your second planet's name."
+    planet2 = gets.chomp.downcase
+    user_compare_planets(canaansworld, planet1, planet2)
+
+  elsif answer == "age"
+    puts "Which planet would you like to find the rotaional age of?"
+    planet_choice = gets.chomp.downcase
+    puts planet_rotational_age(canaansworld, canaansworld.age, planet_choice)
+
+  elsif answer == "exit"
+    puts "Well, ttyl then, nerd"
+    exit
+  else
+    puts "Sorry, that is not a valid option"
+  end
+
+  answer = prompt(canaansworld)
+end
+
+
+
+
+#tests
+#puts canaansworld.print_planet_names #print_planet_namess out the names
+
+# MORE #PLANET TESTS
+# puts canaansworld.planet_attributes #gives planet attributes formatted correctly
+# nola.add_quality("heat", "true") #test for add_quatliy
+# puts nola.show_qualities
+#
+# puts nola.name
+# puts canaansworld.planets.last.population
+# puts ada.rating
+# puts ada.distance_from_sun
+# puts ada.year_length
+# puts ada.qualities
