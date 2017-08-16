@@ -29,8 +29,7 @@ end
 # End of Planet Class #
 
 class SolarSystem
-  attr_accessor :planets
-  attr_reader :age
+  attr_reader :planets, :age
 
   def initialize(planets, age)
     @planets = planets
@@ -40,6 +39,11 @@ class SolarSystem
   # Takes in a new Planet object and adds to this SolarSystem
   def add_planet(new_planet)
     @planets.push(new_planet)
+  end
+
+  # Returns the number of planets
+  def num_planets
+    return @planets.length
   end
 
   # Returns a String of all the planets in enumerated form
@@ -93,28 +97,30 @@ def planet_observatory_interface(solar_system)
     end
     user_choice = gets.chomp.to_i
   end
-  puts "Thanks for using the Planet Observatory!\n\n"
+  puts "Thanks for using the Planet Observatory!"
+  puts "\n==============\n\n"
 end
 
 # Takes in a solar system and adds a planet to it using an interface
 def create_planet_interface(solar_system)
   puts "Create a new planet!"
-  print "What's the name of the planet? "
+  print "  What's the name of the planet? "
   new_name = gets.chomp
-  print "What's the diameter (in miles)? "
+  print "  What's the diameter (in miles)? "
   new_diameter = force_valid_num(gets.chomp).to_f
-  print "How many Earth days does it take for it to go around the sun? "
+  print "  How many Earth days does it take for it to go around the sun? "
   new_year_length = force_valid_num(gets.chomp).to_f
-  print "How far is it from the sun (in AU)? "
+  print "  How far is it from the sun (in AU)? "
   new_distance = force_valid_num(gets.chomp).to_f
-  print "How many moons does it have? "
+  print "  How many moons does it have? "
   new_num_moon = force_valid_num(gets.chomp).to_i
 
   new_planet = Planet.new(new_name, new_diameter, new_year_length, new_distance, new_num_moon)
 
   solar_system.add_planet(new_planet)
-  puts "\nHere's the updated list with your new planet!"
+  puts "\nHere's the updated list with your new planet!\n"
   puts solar_system.list_planets
+  puts "\n==============\n"
 end
 
 planet_array = [
@@ -181,8 +187,18 @@ create_planet_interface(our_solar_system)
 planet_observatory_interface(our_solar_system)
 
 puts "Optional Enhancement: Distance From The Sun"
-puts "The distance between #{our_solar_system.planets[2].name} and #{our_solar_system.planets[6].name} is..."
-puts "#{our_solar_system.planets[2].distance_from(our_solar_system.planets[6])}"
+rand_index1 = rand(our_solar_system.planets.length)
+rand_index2 = rand(our_solar_system.planets.length)
+puts "The distance between #{our_solar_system.planets[rand_index1].name} and #{our_solar_system.planets[rand_index2].name} is..."
+puts "#{our_solar_system.planets[rand_index1].distance_from(our_solar_system.planets[rand_index2])}\n"
+
+puts "\nOptional Enhancement: Planet's Local Year Method"
+puts "This solar system is #{our_solar_system.age} years old"
+random_planet_index = rand(our_solar_system.planets.length)
+puts "Relatively, #{our_solar_system.planets[random_planet_index].name}'s local year is:"
+puts "#{'%.2f' % our_solar_system.planet_local_year(random_planet_index)}"
+
+
 
 #Optional
 # [X] - Ensure that the each planet has a @distance_from_the_sun attribute.
