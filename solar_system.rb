@@ -2,7 +2,7 @@
 # Add an initialize method which takes several arguments and uses them to set the class' instance variables.
 # Create a method that returns the Planet's attributes in an easy to read fashion.
 # Create reader methods to give a user access to read the instance variables.
-# Make your SolarSystem class take an array of Planets instead of hashes.
+# Make your SolarSystem class take an array of Planet instead of hashes.
 
 # Verify user input for integers
 def verify(user_input)
@@ -22,7 +22,7 @@ def verify_y_n(user_input)
   return user_input
 end
 
-class Planets
+class Planet
 
   attr_reader :name, :color, :shape, :motto, :planetary_bird, :year_length, :distance_from_the_sun
 
@@ -66,11 +66,7 @@ class SolarSystem
       planet_names << "#{i+1}: #{planet.name}\n"
     end
 
-    # Add Exit option
-    planet_names << "#{@planets.length + 1}: Exit"
-
     return planet_names
-
   end
 
   # Create a method to add a planet to the list
@@ -83,7 +79,7 @@ class SolarSystem
   def return_planets
     list = ""
     @planets.each_with_index do |planet, i|
-      list << "--- #{i+1} ---\nName: #{planet.name}\nColor: #{planet.color}\nShape: #{planet.shape}\nMotto: #{planet.motto}\nPlanetary bird: #{planet.planetary_bird}\nYear length (in days): #{planet.year_length}\nDistance from the sun (in feet): #{planet.distance_from_the_sun}\n"
+      list << "--- #{i+1} ---\n#{planet.all_attributes}\n"
     end
     return list
   end
@@ -92,7 +88,7 @@ class SolarSystem
     planet_details = ""
     @planets.each_with_index do |planet, i|
       if user_planet == planet.name
-        planet_details << "---\nName: #{planet.name}\nColor: #{planet.color}\nShape: #{planet.shape}\nMotto: #{planet.motto}\nPlanetary bird: #{planet.planetary_bird}\nYear length (in days): #{planet.year_length}\nDistance from the sun (in feet): #{planet.distance_from_the_sun}\n---\n"
+        planet_details << "---\n#{planet.all_attributes}\n---"
       end
     end
 
@@ -101,22 +97,14 @@ class SolarSystem
 
   # Ensure that the each planet has a @distance_from_the_sun attribute. Using this data, add a method to determine the distance from any other planet (assuming planets are in a straight line from the sun)
   def distance_btwn_planets(planet_1, planet_2)
-    # STILL TO DO - Verify that the planets are different
-
-    # find planet with larger distance
-    # subtract smaller distance from larger distance
-    # return result
-
-    #  a <=> b
-      # if a < b then return -1
-      # if a = b then return  0
-      # if a > b then return  1
-
-    if (planet_1.distance_from_the_sun <=> planet_2.distance_from_the_sun) == 1
-      distance = planet_1.distance_from_the_sun - planet_2.distance_from_the_sun
-      return distance
-    elsif (planet_1.distance_from_the_sun <=> planet_2.distance_from_the_sun) == -1
-      distance = planet_2.distance_from_the_sun = planet_1.distance_from_the_sun
+    if planet_1 != planet_2
+      planet_distance_arr = []
+      @planets.each_with_index do |planet, i|
+        if planet_1 == planet.name || planet_2 == planet.name
+          planet_distance_arr << planet
+        end
+      end
+      distance = (planet_distance_arr[0].distance_from_the_sun - planet_distance_arr[1].distance_from_the_sun).abs
       return distance
     else # they are equal
       puts "You entered in the same planet twice! It's distance from itself is 0."
@@ -124,30 +112,30 @@ class SolarSystem
   end
 
   # Define a method that returns the local year (earth years) of the planet based on it's rotation since the beginning of the solar system
-
   # earth = x * 365/365 (x = age of solar system)
   # jupiter = x * 500/365
-
   def earth_years
     earth_year_list = ""
     @planets.each_with_index do |planet, i|
       # earth_year_list << @age * (planet.year_length / 365)
         earth_year_list << "---\nName: #{planet.name}\nAge in earth years: #{@age * (planet.year_length / 365.0)}\n"
       end
-    return earth_year_list
+  return earth_year_list
   end
 
 end
 
 # Create instances of planets
-planet_1 = Planets.new("Winnicott", "Technicolour", "Heart", "You are good", "Cedar waxwing", 500, 2323232)
-planet_2 = Planets.new("Rollo", "Black", "Round", "Deep breath", "Great blue heron", 23, 100)
-planet_3 = Planets.new("Yalom", "Bright yellow", "Square", "Star at the sun", "Emperor penguin", 123, 10)
-planet_4 = Planets.new("KENN", "Red", "Sphere", "Connections are everywhere", "American Robin", 945, 250)
-planet_5 = Planets.new("Earth", "Multicolour", "Sphere", "???", "All birds", 365, 1000)
+planet_array = [
+  Planet.new("Winnicott", "Technicolour", "Heart", "You are good", "Cedar waxwing", 500, 2323232),
+  Planet.new("Rollo", "Black", "Round", "Deep breath", "Great blue heron", 23, 100),
+  Planet.new("Yalom", "Bright yellow", "Square", "Star at the sun", "Emperor penguin", 123, 10),
+  Planet.new("KENN", "Red", "Sphere", "Connections are everywhere", "American Robin", 945, 250),
+  Planet.new("Earth", "Multicolour", "Sphere", "???", "All birds", 365, 1000)
+]
 
 # Create instance of solar system using previous instances of planets
-my_system = SolarSystem.new([planet_1, planet_2, planet_3, planet_4, planet_5])
+my_system = SolarSystem.new(planet_array)
 
 # Write a program that asks for user input to query the planets:
 # First, ask the user to select a planet they'd like to learn about.
@@ -159,102 +147,95 @@ my_system = SolarSystem.new([planet_1, planet_2, planet_3, planet_4, planet_5])
 puts "---"
 puts "Welcome to this solar system! Here are the planets that live here: "
 
-# Display planet list (list_planet_names method) without last line (i.e., Exit)
-# str = str.strip.split("\n")
-# last_line = str.pop
-# str = str.join("\n")
-
-array_list = my_system.list_planet_names.strip.split("\n")
-array_list.pop
-array_list = array_list.join("\n")
-
-puts "#{array_list}"
+puts "#{my_system.list_planet_names}"
 puts "---"
 
-puts "Would you like to learn about the planets (Y/N)?: "
-user_answer = gets.chomp
-user_answer = verify_y_n(user_answer)
+loop do
+  puts "Would you like to learn about the planets (Y/N)?: "
+  user_answer = gets.chomp
+  user_answer = verify_y_n(user_answer)
+  if user_answer == "N"
+    break
+  else #user_answer == "Y"
+    # STILL TO DO => FIGURE OUT HOW TO FIND INFO IF USER INPUT A NUMBER
+    puts "Please choose a planet you'd like to learn about (Please type in the full planet name): "
+    puts "---"
+    puts my_system.list_planet_names
 
-if user_answer == "Y"
-  # STILL TO DO => FIGURE OUT HOW TO FIND INFO IF USER INPUT A NUMBER
-  puts "Please choose a planet you'd like to learn about (Please type in the full planet name, or type Exit if you don't want to learn right now): "
-  # List planets minus Exit
-  puts "---"
-  puts my_system.list_planet_names
-
-  choice = gets.chomp
-  # STILL TO DO => VERIFY USER INPUT
-  until choice == "Exit"
+    choice = gets.chomp
+    # STILL TO DO => VERIFY USER INPUT
     # Find choice and print out info for selected planet
     planet_info = my_system.one_planet(choice)
     puts planet_info
-    # Ask user if they want to learn more
-    puts "Please choose another planet to learn about (or select Exit to stop learning): "
-    puts my_system.list_planet_names
-    choice = gets.chomp
   end
-
-else # user_answer == "N"
-end
+end#loop
 
 # Ask user if they would now like to create their own planet
 # Create a method, outside any class, which creates a planet from user input
-puts "Would you like to add your own planet (Y/N)?: "
-user_planet = gets.chomp.upcase
-user_planet = verify_y_n(user_answer)
 
-if user_planet == "Y"
-  while true
-    def create_user_planet
-      puts "---"
-      puts "Please add your own planet: "
-      puts "What do you call your planet?: "
-      name = gets.chomp
-      # STILL TO DO => VERIFY USER INPUT
-      puts "What color is your planet?: "
-      color = gets.chomp
-      puts "What shape is your planet?: "
-      shape = gets.chomp
-      puts "What's your planet's motto?: "
-      motto = gets.chomp
-      puts "What's your planetary bird?: "
-      bird = gets.chomp
-      puts "What's the year length on your planet in days (please enter number value only)?: "
-      year_length = gets.chomp
-      year_length = verify(year_length)
-      puts "And lastly, what's your planet's distance from the sun in feet (please enter number value only)?: "
-      distance_from_the_sun = gets.chomp
-      distance_from_the_sun = verify(distance_from_the_sun)
+def create_user_planet
+  puts "---"
+  puts "Please add your own planet: "
+  puts "What do you call your planet?: "
+  name = gets.chomp
+  # STILL TO DO => VERIFY USER INPUT
+  puts "What color is your planet?: "
+  color = gets.chomp
+  puts "What shape is your planet?: "
+  shape = gets.chomp
+  puts "What's your planet's motto?: "
+  motto = gets.chomp
+  puts "What's your planetary bird?: "
+  bird = gets.chomp
+  puts "What's the year length on your planet in days (please enter number value only)?: "
+  year_length = gets.chomp
+  year_length = verify(year_length)
+  puts "And lastly, what's your planet's distance from the sun in feet (please enter number value only)?: "
+  distance_from_the_sun = gets.chomp
+  distance_from_the_sun = verify(distance_from_the_sun)
 
-      user_planet = Planets.new(name, color, shape, motto, bird, year_length, distance_from_the_sun)
+  user_planet = Planet.new(name, color, shape, motto, bird, year_length, distance_from_the_sun)
 
-      puts "--- Your planet ---\n#{user_planet.all_attributes}"
+  puts "--- Your planet ---\n#{user_planet.all_attributes}"
 
-      return user_planet
-      # STILL TO DO - allow user to add planets until done
-    end
+  return user_planet
+
+end
+
+loop do
+  puts "Would you like to add your own planet (Y/N)?: "
+  user_answer = gets.chomp.upcase
+  user_answer = verify_y_n(user_answer)
+
+  if user_answer == "N"
+    break
+  else #user_answer == "Y"
+    # STILL TO DO - allow user to add planets until done
     my_system.add_planet(create_user_planet)
     puts "--- Planet list ---"
     puts my_system.return_planets
     puts "---"
-
-    puts "Would you like to create another planet (Y/N)?: "
-    another_planet = gets.chomp.upcase
-    another_planet = verify_y_n(another_planet)
-
-    if another_planet == "Y"
-    else #another_planet == "N"
-      break #break out of while loop and program
-    end
   end
+end#loop
 
-  else # user_planet == "N"
+loop do
+  puts "Would you like to learn about the distances between planets (Y/N)?: "
+  user_answer = gets.chomp.upcase
+  user_answer = verify_y_n(user_answer)
 
-end
+  if user_answer == "N"
+    break
+  else #user_answer == "Y"
+    puts "Enter the first planet: "
+    planet_1 = gets.chomp
+    puts "Enter the second planet: "
+    planet_2 = gets.chomp
 
-distance = my_system.distance_btwn_planets(planet_1, planet_2)
-puts "---"
-puts "Fun fact: The distance between #{planet_1.name} and #{planet_2.name} is: #{distance} feet."
+    distance = my_system.distance_btwn_planets(planet_1, planet_2)
+    puts "---"
+    puts "The distance between #{planet_1} and #{planet_2} is: #{distance} feet."
+  end
+end#loop
 
 earth_years = my_system.earth_years
 puts "---"
