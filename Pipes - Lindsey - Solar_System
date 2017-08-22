@@ -1,0 +1,44 @@
+class SolarSystem
+    def initialize(p)
+      @planet = p
+    end
+
+    def add_planet(new_planet)
+      @planet << new_planet
+    end
+
+    def return_print
+      return_string = ""
+      counter = 1
+
+      @planet.each do |current_planet|
+        return_string += "#{counter}. " + current_planet.planet_name + "\n"
+        counter += 1
+      end
+      return return_string
+    end
+end
+
+class Planet
+  attr_reader :planet_name, :planet_size, :planet_day_cycle,
+              :planet_appearance, :planet_livable
+  def initialize(name, size, cycle, appearance, livable)
+    @planet_name = name
+    @planet_size = size
+    @planet_day_cycle = cycle
+    @planet_appearance = appearance
+    @planet_livable = livable
+  end
+end
+
+earth = Planet.new('Earth', 'big', 24, 3, true)
+mercury = Planet.new('Mercury', 'small', 1407, 1, false)
+uranus = Planet.new('Uranus', 'very big', 17, 7, false)
+
+test = SolarSystem.new([earth, mercury, uranus])
+puts test.return_print
+
+def return_attribute
+    return "Size:\t#{@size}\nColour:\t#{@colour}\nDayCycle:\t#{@day_cycle}\nNumber of Moons: #{@moons}"
+  end
+end
